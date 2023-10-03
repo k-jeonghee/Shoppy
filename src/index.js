@@ -8,6 +8,7 @@ import AllProducts from './pages/AllProducts';
 import ProductDetail from './pages/ProductDetail';
 import MyCart from './pages/MyCart';
 import NewProduct from './pages/NewProduct';
+import { ProtectedRoute } from './pages/ProtectedRoute';
 
 const router = createBrowserRouter([
 	{
@@ -28,11 +29,19 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/products/new',
-				element: <NewProduct />,
+				element: (
+					<ProtectedRoute requiredAdmin>
+						<NewProduct />
+					</ProtectedRoute>
+				),
 			},
 			{
 				path: '/carts',
-				element: <MyCart />,
+				element: (
+					<ProtectedRoute>
+						<MyCart />
+					</ProtectedRoute>
+				),
 			},
 		],
 	},
