@@ -6,6 +6,10 @@ const NewProduct = () => {
 	const [product, setProduct] = useState({});
 	const [file, setFile] = useState();
 	const [imgUrl, setImgUrl] = useState();
+
+	const [isUploading, setIsUploading] = useState(false);
+	const [success, setSuccess] = useState();
+
 	const handleChange = (e) => {
 		const { name, value, files } = e.target;
 		if (name === 'file') {
@@ -18,14 +22,29 @@ const NewProduct = () => {
 			[name]: value,
 		}));
 	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		uploadImage(file).then((url) => addNewProduct(product, url));
+		setIsUploading(true);
+		uploadImage(file) //
+			.then((url) =>
+				addNewProduct(product, url).then(() => {
+					setSuccess('상품 등록 성공!');
+					setTimeout(() => {
+						setSuccess(null);
+					}, 4000);
+				})
+			)
+			.finally(() => {
+				setIsUploading(false);
+			});
 	};
+	//
 
 	return (
 		<div className="flex flex-col items-center">
 			<h1 className="text-2xl font-bold">새로운 제품 등록</h1>
+			{success && <p>✅ {success}</p>}
 			{file && <img src={imgUrl} alt="미리보기" />}
 			<form className="flex flex-col w-3/4" onSubmit={handleSubmit}>
 				<input
@@ -78,7 +97,7 @@ const NewProduct = () => {
 					onChange={handleChange}
 					value={product.options || ''}
 				/>
-				<button>제품등록</button>
+				<button>{isUploading ? '업로드중...' : '제품등록'}</button>
 			</form>
 		</div>
 	);

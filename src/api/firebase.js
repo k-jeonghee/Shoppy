@@ -56,15 +56,15 @@ const adminUser = async (user) => {
 		});
 };
 
-export const addNewProduct = (product, imgURL) => {
+export const addNewProduct = async (product, imgURL) => {
 	const id = uuid();
-	set(ref(db, `products/${id}`), {
+	return set(ref(db, `products/${id}`), {
 		...product,
 		id,
 		price: parseInt(product.price),
 		options: product.options.split(','),
 		image: imgURL,
-	});
+	}).catch((error) => console.error(error));
 };
 
 export const getProducts = async () => {
