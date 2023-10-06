@@ -66,3 +66,12 @@ export const addNewProduct = (product, imgURL) => {
 		image: imgURL,
 	});
 };
+
+export const getProducts = async () => {
+	return get(ref(db, 'products')).then((snapshot) => {
+		if (snapshot.exists()) {
+			return Object.values(snapshot.val());
+		}
+		return [];
+	});
+};

@@ -6,6 +6,8 @@ export const uploadImage = async (file) => {
 	const result = await fetch(process.env.REACT_APP_CLOUDINARY_URL, {
 		method: 'POST',
 		body: data,
-	});
+	})
+		.then((res) => res.json())
+		.then((data) => data.url);
 	return result;
 };
