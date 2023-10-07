@@ -1,7 +1,15 @@
-import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { getProducts } from '../api/firebase';
+import Products from '../components/Products';
 
 const Home = () => {
-	return <div>Home</div>;
+	//14.2 4:57
+	return (
+		<>
+			<Products />
+		</>
+	);
 };
 
 export default Home;

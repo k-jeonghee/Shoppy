@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { uploadImage } from '../api/uploader';
 import { addNewProduct } from '../api/firebase';
+import { useNavigate } from 'react-router-dom';
 
 const NewProduct = () => {
 	const [product, setProduct] = useState({});
@@ -9,6 +10,8 @@ const NewProduct = () => {
 
 	const [isUploading, setIsUploading] = useState(false);
 	const [success, setSuccess] = useState();
+
+	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		const { name, value, files } = e.target;
@@ -32,6 +35,7 @@ const NewProduct = () => {
 					setSuccess('상품 등록 성공!');
 					setTimeout(() => {
 						setSuccess(null);
+						navigate('/products');
 					}, 4000);
 				})
 			)
@@ -45,7 +49,7 @@ const NewProduct = () => {
 		<div className="flex flex-col items-center">
 			<h1 className="text-2xl font-bold">새로운 제품 등록</h1>
 			{success && <p>✅ {success}</p>}
-			{file && <img src={imgUrl} alt="미리보기" />}
+			{file && <img className="w-96 mb-2" src={imgUrl} alt="미리보기" />}
 			<form className="flex flex-col w-3/4" onSubmit={handleSubmit}>
 				<input
 					className="p-4 border border-grey mb-2"

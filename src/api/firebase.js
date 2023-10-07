@@ -75,3 +75,24 @@ export const getProducts = async () => {
 		return [];
 	});
 };
+
+export const addToCart = async (uid, product) => {
+	const { id, title, image, price, option, quantity } = product;
+	return set(ref(db, `carts/${uid}/${id}`), {
+		id,
+		title,
+		image,
+		price,
+		option,
+		quantity,
+	}).catch((error) => console.error(error));
+};
+
+export const getCartProducts = async (id) => {
+	return get(ref(db, `carts/${id}`)).then((snapshot) => {
+		if (snapshot.exists()) {
+			return Object.values(snapshot.val());
+		}
+		return [];
+	});
+};
